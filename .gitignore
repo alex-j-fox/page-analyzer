@@ -10,3 +10,4 @@ htmlcov/
 .coveragerc
 coverage.xml
 .env
+/page_analyzer/styles/
