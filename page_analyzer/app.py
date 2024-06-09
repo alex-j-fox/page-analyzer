@@ -47,7 +47,8 @@ def url_new(id):
     with conn.cursor() as curs:
         curs.execute('SELECT * FROM urls WHERE id=%s', (id,))
         current_url = curs.fetchone()
-    return render_template('show.html', id=id, name=current_url[1], date=current_url[2], messages=messages)
+    return render_template('show.html', id=id, name=current_url[1],
+                           date=current_url[2], messages=messages)
 
 
 @app.post('/urls/')
@@ -68,7 +69,8 @@ def urls_post():
                     'INSERT INTO urls (name, created_at) VALUES (%s, %s);',
                     (normalized_url, datetime.date.today()))
                 flash('Страница успешно добавлена', 'success')
-            curs.execute('SELECT * FROM urls WHERE name=%s;', (normalized_url,))
+            curs.execute('SELECT * FROM urls WHERE name=%s;',
+                         (normalized_url,))
             current_id = curs.fetchone()[0]
 
         conn.commit()
