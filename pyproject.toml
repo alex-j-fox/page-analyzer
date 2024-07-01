@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "hexlet-code"
 version = "0.1.0"
-description = ""
+description = "Flask app to analyze web pages"
 authors = ["alex-j-fox <alex-j-fox@yandex.ru>"]
 readme = "README.md"
 packages = [{include = "page_analyzer"}]
@@ -10,13 +10,13 @@ packages = [{include = "page_analyzer"}]
 python = "^3.10"
 Flask = "^3.0.3"
 gunicorn = "^22.0.0"
-python-dotenv = "^1.0.1"
 psycopg2-binary = "^2.9.9"
 validators = "^0.28.3"
 
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^7.0.0"
+python-dotenv = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core"]
