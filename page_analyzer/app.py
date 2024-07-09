@@ -4,7 +4,7 @@ from flask import (Flask, render_template, request, url_for, redirect, flash,
                    Response, session, abort)
 from validators import url as validators_url
 
-from page_analyzer import db_queries as db
+from page_analyzer import db_manager as db
 from page_analyzer.utils import normalize_url, is_exists_url_name
 
 try:
