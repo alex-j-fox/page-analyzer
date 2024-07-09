@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS "urls" (
     "id" bigserial PRIMARY KEY,
     "name" varchar(255) UNIQUE NOT NULL,
-    "created_at" date NOT NULL 
+    "created_at" date DEFAULT CURRENT_TIMESTAMP 
 );
 
 CREATE TABLE IF NOT EXISTS "url_checks" (
@@ -11,5 +11,5 @@ CREATE TABLE IF NOT EXISTS "url_checks" (
     "h1" varchar(255),
     "title" varchar(255),
     "description" text,
-    "created_at" date NOT NULL 
+    "created_at" date DEFAULT CURRENT_TIMESTAMP 
 );
