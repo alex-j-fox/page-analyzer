@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block main %}
+    <div class="container-lg mt-3">
+        <h1>Сайты</h1>
+        <div>
+            <table class="table table-bordered table-hover text-nowrap"
+                   aria-hidden="true" data-test="urls">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Имя</th>
+                    <th>Последняя проверка</th>
+                    <th>Код ответа</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for url in urls %}
+                    <tr>
+                        <td>{{ url.id }}</td>
+                        <td><a href="/urls/{{ url.id }}">{{ url.name }}</a>
+                        </td>
+                        <td>{{ url.created_at or '' }}</td>
+                        <td>{{ url.status_code or '' }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
