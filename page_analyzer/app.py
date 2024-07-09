@@ -76,19 +76,20 @@ def handle_url_post_request() -> Response:
 
 @app.post('/urls/<int:id>/checks')
 def check_url(id: int) -> Response:
-    db.insert_check_to_url_checks(id)
-    flash('Страница успешно проверена', 'success')
+    with db.connect_db(app) as conn:
+        db.insert_check_to_url_checks(conn, id)
+        flash('Страница успешно проверена', 'success')
     # flash('Произошла ошибка при проверке', 'danger')
     return redirect(url_for('show_url_page', id=id))
 
 
 @app.errorhandler(404)
-def page_not_found():
+def page_not_found(_):
     return render_template('errors/404.html'), 404
 
 
 @app.errorhandler(500)
-def internal_error():
+def internal_error(_):
     return render_template('errors/500.html'), 500
 
 
