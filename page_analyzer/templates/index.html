@@ -2,13 +2,15 @@
 
 {% block main %}
     <div class="container-lg mt-3">
-
+    <h1 class="visually-hidden">Проверка сайтов на SEO-пригодность</h1>
+    
         <div class="row">
             <div class="col-12 col-md-10 col-lg-8 mx-auto border rounded-3 bg-light p-5">
                 <h1 class="display-3">Анализатор страниц</h1>
                 <p class="lead">Бесплатно проверяйте сайты на
                     SEO-пригодность</p>
 
+            
                 {% with form_value = session.get('url', ''), _ = session.pop('url', '') %}
                     <form action="{{ url_for('handle_url_post_request') }}"
                           method="post"
