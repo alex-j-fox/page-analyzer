@@ -22,9 +22,7 @@ app.config['DATABASE_URL'] = os.getenv('DATABASE_URL')
 
 @app.route('/')
 def index() -> str:
-    return render_template(
-        'index.html',
-    )
+    return render_template('index.html')
 
 
 @app.route('/urls/<int:id>')
