@@ -50,16 +50,16 @@ def show_urls_page() -> str:
 
 
 @app.post('/urls')
-def handle_url_post_request() -> Response:
+def handle_url_post_request() -> str or Response:
     url_value = request.form.get('url')
     session['url'] = url_value
     if len(url_value) > 255:
         flash('URL превышает 255 символов', 'danger')
-        return redirect(url_for('index'))
+        return render_template('index.html'), 422
 
     if not validators_url(url_value):
         flash('Некорректный URL', 'danger')
-        return redirect(url_for('index'))
+        return render_template('index.html'), 422
 
     with db.connect_db(app) as conn:
         normalized_url = normalize_url(url_value)
