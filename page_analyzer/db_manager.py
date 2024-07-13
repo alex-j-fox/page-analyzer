@@ -36,9 +36,9 @@ def execute_in_db(with_commit=False):
 def insert_url_to_urls(conn, url, cursor):  # noqa: disable=unused-argument
     cursor.execute(
         'INSERT INTO "urls" ("name", "created_at") '
-        'VALUES (%s, %s) RETURNING "id";',
+        'VALUES (%s, %s) RETURNING "id"',
         (url, date.today()))
-    conn.commit()
+    return cursor.fetchone().id
 
 
 @execute_in_db()
@@ -60,23 +60,26 @@ def get_urls_list(conn, cursor):  # noqa: disable=unused-argument
 
 
 @execute_in_db(with_commit=True)
-def insert_check_to_url_checks(conn, id, response,
+def insert_check_to_url_checks(conn, id, url_info,
                                cursor):  # noqa: disable=unused-argument
     cursor.execute('INSERT INTO "url_checks" ('
                    '"url_id",'
                    '"status_code",'
-                   # '"h1",'
-                   # '"title",'
-                   # '"description",'
-                   '"created_at") VALUES (%s, %s, %s);',
+                   '"h1",'
+                   '"title",'
+                   '"description",'
+                   '"created_at") VALUES (%s, %s, %s, %s, %s, %s)',
                    (id,
-                    response.status_code,
+                    url_info.status_code,
+                    url_info.h1,
+                    url_info.title,
+                    url_info.description,
                     date.today()))
-    conn.commit()
 
 
 @execute_in_db()
-def get_urls_list_with_check_data(conn, cursor):  # noqa: disable=unused-argument
+def get_urls_list_with_check_data(conn,
+                                  cursor):  # noqa: disable=unused-argument
     cursor.execute('SELECT DISTINCT ON ("urls"."id") '
                    '"urls"."id", '
                    '"urls"."name", '

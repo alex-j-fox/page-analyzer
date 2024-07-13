@@ -5,7 +5,7 @@ from flask import (Flask, render_template, request, url_for, redirect, flash,
 from validators import url as validators_url
 
 from page_analyzer import db_manager as db
-from page_analyzer.url_checker import check_url_accessibility
+from page_analyzer.url_checker import get_page_content
 from page_analyzer.utils import normalize_url, is_exists_url_name
 
 try:
@@ -79,11 +79,11 @@ def handle_url_post_request() -> Response:
 def check_url(id: int) -> Response:
     with db.connect_db(app) as conn:
         url = db.get_url_info(conn, id).name
-        response = check_url_accessibility(url)
-        if not response:
+        url_info = get_page_content(url)
+        if not url_info:
             flash('Произошла ошибка при проверке', 'danger')
         else:
-            db.insert_check_to_url_checks(conn, id, response)
+            db.insert_check_to_url_checks(conn, id, url_info)
             flash('Страница успешно проверена', 'success')
     return redirect(url_for('show_url_page', id=id))
 
