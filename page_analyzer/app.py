@@ -49,7 +49,7 @@ def show_urls_page() -> str:
     )
 
 
-@app.post('/urls/')
+@app.post('/urls')
 def handle_url_post_request() -> Response:
     url_value = request.form.get('url')
     session['url'] = url_value
