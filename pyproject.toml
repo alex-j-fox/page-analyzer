@@ -1,10 +1,22 @@
 [tool.poetry]
 name = "hexlet-code"
 version = "0.1.0"
-description = "Flask app to analyze web pages"
+description = "Page Analyzer – is a website that analyzes pages for SEO suitability, similar to PageSpeed Insights"
 authors = ["alex-j-fox <alex-j-fox@yandex.ru>"]
 readme = "README.md"
 packages = [{include = "page_analyzer"}]
+repository = "https://github.com/alex-j-fox/python-project-83"
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "License :: Freeware",
+    "Operating System :: OS Independent",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
+    "Topic :: Internet :: WWW/HTTP :: Site Management"
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
