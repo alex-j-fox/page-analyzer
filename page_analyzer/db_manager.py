@@ -87,7 +87,7 @@ def get_urls_list_with_check_data(conn,
                    '"checks"."status_code" '
                    'FROM "urls" LEFT JOIN "url_checks" AS "checks" '
                    'ON "urls"."id"="checks"."url_id" '
-                   'ORDER BY "urls"."id" DESC')
+                   'ORDER BY "urls"."id" DESC , "checks"."id" DESC ')
     return cursor.fetchall()
 
 
