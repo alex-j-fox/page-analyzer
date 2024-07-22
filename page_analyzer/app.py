@@ -1,5 +1,6 @@
 import os
 
+from dotenv import load_dotenv
 from flask import (Flask, render_template, request, url_for, redirect, flash,
                    Response, session, abort)
 from validators import url as validators_url
@@ -8,12 +9,7 @@ from page_analyzer import db_manager as db
 from page_analyzer.url_checker import get_page_content
 from page_analyzer.utils import normalize_url, is_exists_url_name
 
-try:
-    from dotenv import load_dotenv
-
-    load_dotenv()
-except FileNotFoundError:
-    pass
+load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')

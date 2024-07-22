@@ -11,6 +11,10 @@ def get_page_content(url: str):
     except requests.exceptions.RequestException:
         return
 
+    return parse_html(response)
+
+
+def parse_html(response):
     PageContent = namedtuple('PageContent',
                              ['h1', 'title', 'description', 'status_code'])
     soup = BeautifulSoup(response.text, 'html.parser')
