@@ -12,12 +12,11 @@ def connect_db(app):
 def execute_in_db(with_commit=False):
     def decorator(func):
         @wraps(func)
-        def inner(*args, **kwargs):
-            conn = args[0]
+        def inner(conn, *args, **kwargs):
             with conn.cursor(cursor_factory=NamedTupleCursor) as cursor:
                 result = func(*args, cursor=cursor, **kwargs)
                 if with_commit:
-                    conn.commit()
+                    cursor.connection.commit()
                 return result
 
         return inner
@@ -26,7 +25,7 @@ def execute_in_db(with_commit=False):
 
 
 @execute_in_db(with_commit=True)
-def insert_url_to_urls(conn, url, cursor):
+def insert_url_to_urls(url, cursor):
     cursor.execute(
         'INSERT INTO "urls" ("name", "created_at") '
         'VALUES (%s, %s) RETURNING "id"',
@@ -35,25 +34,25 @@ def insert_url_to_urls(conn, url, cursor):
 
 
 @execute_in_db()
-def get_url_info(conn, id, cursor):
+def get_url_info(id, cursor):
     cursor.execute('SELECT * FROM "urls" WHERE "id"=%s', (id,))
     return cursor.fetchone()
 
 
 @execute_in_db()
-def get_url_id(conn, url, cursor):
+def get_url_id(url, cursor):
     cursor.execute('SELECT * FROM "urls" WHERE "name"=%s', (url,))
     return cursor.fetchone().id
 
 
 @execute_in_db()
-def get_urls_list(conn, cursor):
+def get_urls_list(cursor):
     cursor.execute('SELECT "name" FROM "urls" ORDER BY "id" DESC')
     return cursor.fetchall()
 
 
 @execute_in_db(with_commit=True)
-def insert_check_to_url_checks(conn, id, url_info, cursor):
+def insert_check_to_url_checks(id, url_info, cursor):
     cursor.execute('INSERT INTO "url_checks" ('
                    '"url_id",'
                    '"status_code",'
@@ -70,7 +69,7 @@ def insert_check_to_url_checks(conn, id, url_info, cursor):
 
 
 @execute_in_db()
-def get_urls_list_with_check_data(conn, cursor):
+def get_urls_list_with_check_data(cursor):
     cursor.execute('SELECT DISTINCT ON ("urls"."id") '
                    '"urls"."id", '
                    '"urls"."name", '
@@ -83,7 +82,7 @@ def get_urls_list_with_check_data(conn, cursor):
 
 
 @execute_in_db()
-def get_url_checks(conn, url_id, cursor):
+def get_url_checks(url_id, cursor):
     cursor.execute('SELECT * FROM "url_checks" WHERE "url_id"=%s '
                    'ORDER BY "id" DESC ', (url_id,))
     return cursor.fetchall()
